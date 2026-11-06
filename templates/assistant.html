@@ -1,0 +1,599 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Travel Assistant | TicketMate AI</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f3f6fb;
+    color: #172033;
+    min-height: 100vh;
+}
+
+header {
+    background: #101d35;
+    color: white;
+    padding: 17px 6%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.logo {
+    font-size: 23px;
+    font-weight: bold;
+    color: #42d6c4;
+}
+
+nav {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+nav a:hover,
+nav a.active {
+    color: #42d6c4;
+}
+
+.main {
+    max-width: 1150px;
+    margin: 25px auto;
+    padding: 0 18px;
+}
+
+.assistant-layout {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 20px;
+}
+
+.chat-card {
+    background: white;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 5px 25px rgba(20, 40, 80, 0.07);
+    display: flex;
+    flex-direction: column;
+    min-height: 690px;
+}
+
+.chat-header {
+    background: linear-gradient(120deg, #101d35, #087f72);
+    color: white;
+    padding: 23px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.ai-avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: white;
+    color: #087f72;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+}
+
+.chat-header h2 {
+    font-size: 20px;
+    margin-bottom: 5px;
+}
+
+.chat-header p {
+    font-size: 13px;
+    color: #d5f7ef;
+}
+
+.status {
+    margin-left: auto;
+    font-size: 12px;
+    background: #ffffff22;
+    padding: 8px 12px;
+    border-radius: 20px;
+}
+
+.chat-messages {
+    flex: 1;
+    padding: 25px;
+    overflow-y: auto;
+    min-height: 400px;
+    max-height: 500px;
+    background: #fbfcfe;
+}
+
+.message {
+    display: flex;
+    margin-bottom: 18px;
+}
+
+.message.user {
+    justify-content: flex-end;
+}
+
+.message.bot {
+    justify-content: flex-start;
+}
+
+.message-bubble {
+    max-width: 80%;
+    padding: 14px 17px;
+    border-radius: 15px;
+    font-size: 14px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+}
+
+.message.bot .message-bubble {
+    background: #eaf5f4;
+    color: #172033;
+    border-bottom-left-radius: 3px;
+}
+
+.message.user .message-bubble {
+    background: #087f72;
+    color: white;
+    border-bottom-right-radius: 3px;
+}
+
+.suggestions {
+    padding: 15px 22px;
+    border-top: 1px solid #edf0f5;
+}
+
+.suggestions p {
+    font-size: 13px;
+    color: #718096;
+    margin-bottom: 12px;
+}
+
+.suggestion-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+}
+
+.suggestion-buttons button {
+    background: #f0f8f7;
+    border: 1px solid #cde9e4;
+    color: #087f72;
+    padding: 9px 13px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.suggestion-buttons button:hover {
+    background: #d9f5ef;
+}
+
+.chat-input-area {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 18px;
+    border-top: 1px solid #edf0f5;
+}
+
+.chat-input-area input {
+    flex: 1;
+    min-width: 0;
+    padding: 15px;
+    border: 1px solid #dce3ec;
+    border-radius: 12px;
+    outline: none;
+    font-size: 14px;
+}
+
+.chat-input-area input:focus {
+    border-color: #087f72;
+}
+
+.icon-btn {
+    width: 46px;
+    height: 46px;
+    border: none;
+    border-radius: 12px;
+    background: #eaf5f4;
+    color: #087f72;
+    font-size: 19px;
+    cursor: pointer;
+}
+
+.send-btn {
+    background: #087f72;
+    color: white;
+}
+
+.icon-btn:hover {
+    opacity: 0.8;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.side-card {
+    background: white;
+    border-radius: 16px;
+    padding: 22px;
+    box-shadow: 0 5px 20px rgba(20, 40, 80, 0.05);
+}
+
+.side-card h3 {
+    font-size: 17px;
+    margin-bottom: 16px;
+}
+
+.quick-link {
+    display: block;
+    padding: 13px;
+    border: 1px solid #edf0f5;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #172033;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.quick-link:hover {
+    background: #effaf8;
+    border-color: #a7ded4;
+}
+
+.info-text {
+    color: #718096;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.demo-notice {
+    background: #fff5df;
+    border: 1px solid #f1dda9;
+    color: #765600;
+    padding: 12px 15px;
+    border-radius: 10px;
+    font-size: 12px;
+    margin-bottom: 18px;
+}
+
+@media(max-width: 850px) {
+    .assistant-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .chat-card {
+        min-height: 620px;
+    }
+
+    .sidebar {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media(max-width: 550px) {
+    header {
+        padding: 16px 5%;
+    }
+
+    nav {
+        gap: 12px;
+    }
+
+    .sidebar {
+        grid-template-columns: 1fr;
+    }
+
+    .chat-input-area {
+        gap: 6px;
+        padding: 12px;
+    }
+
+    .icon-btn {
+        width: 40px;
+        height: 42px;
+    }
+
+    .message-bubble {
+        max-width: 90%;
+    }
+
+    .status {
+        display: none;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">✈ TicketMate AI</div>
+
+    <nav>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="bus.html">Bus</a>
+        <a href="train.html">Train</a>
+        <a href="hotels.html">Hotels</a>
+        <a href="bookings.html">My Bookings</a>
+        <a href="assistant.html" class="active">AI Assistant</a>
+        <a href="profile.html">Profile</a>
+    </nav>
+</header>
+
+<div class="main">
+
+    <div class="demo-notice">
+        <strong>Development mode:</strong>
+        The chat interface and voice input are ready.
+        Gemini AI responses will work after Member 2 connects the backend.
+    </div>
+
+    <div class="assistant-layout">
+
+        <div class="chat-card">
+
+            <div class="chat-header">
+
+                <div class="ai-avatar">✦</div>
+
+                <div>
+                    <h2>TicketMate AI Assistant</h2>
+                    <p>Your intelligent travel planning companion</p>
+                </div>
+
+                <div class="status">● Assistant UI Ready</div>
+
+            </div>
+
+            <div class="chat-messages" id="chatMessages">
+
+                <div class="message bot">
+                    <div class="message-bubble">
+                        Hello! 👋 Welcome to TicketMate AI.
+
+                        I can help you plan your journey, discover travel options, compare choices and guide you through booking.
+
+                        Where would you like to travel?
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="suggestions">
+
+                <p>Try asking me:</p>
+
+                <div class="suggestion-buttons">
+
+                    <button onclick="useSuggestion('I want to travel to Mysuru')">
+                        🚌 Travel to Mysuru
+                    </button>
+
+                    <button onclick="useSuggestion('Find me a train to Bengaluru')">
+                        🚆 Find a train
+                    </button>
+
+                    <button onclick="useSuggestion('Help me find a hotel')">
+                        🏨 Find a hotel
+                    </button>
+
+                    <button onclick="useSuggestion('Suggest tourist places to visit')">
+                        📍 Tourist places
+                    </button>
+
+                    <button onclick="useSuggestion('Help me plan a complete trip')">
+                        ✨ Plan my trip
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="chat-input-area">
+
+                <button class="icon-btn" id="micBtn"
+                    onclick="startVoiceInput()" title="Speak">
+                    🎙
+                </button>
+
+                <input
+                    type="text"
+                    id="userInput"
+                    placeholder="Tell me where you want to travel..."
+                    autocomplete="off"
+                >
+
+                <button class="icon-btn send-btn"
+                    onclick="sendMessage()" title="Send">
+                    ➤
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="sidebar">
+
+            <div class="side-card">
+
+                <h3>Explore Booking</h3>
+
+                <a href="bus.html" class="quick-link">
+                    🚌 Bus Booking
+                </a>
+
+                <a href="train.html" class="quick-link">
+                    🚆 Train Booking
+                </a>
+
+                <a href="hotels.html" class="quick-link">
+                    🏨 Hotel Booking
+                </a>
+
+                <a href="attractions.html" class="quick-link">
+                    📍 Attractions
+                </a>
+
+                <a href="events.html" class="quick-link">
+                    🎟 Events
+                </a>
+
+            </div>
+
+            <div class="side-card">
+
+                <h3>What Can I Do?</h3>
+
+                <p class="info-text">
+                    • Understand your travel request.<br><br>
+                    • Ask for missing journey details.<br><br>
+                    • Help compare travel options.<br><br>
+                    • Guide you through booking.<br><br>
+                    • Help you explore destinations.
+                </p>
+
+            </div>
+
+            <div class="side-card">
+
+                <h3>My Bookings</h3>
+
+                <p class="info-text">
+                    View your travel booking history and booking status.
+                </p>
+
+                <a href="bookings.html" class="quick-link">
+                    View My Bookings →
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+const chatMessages = document.getElementById("chatMessages");
+const userInput = document.getElementById("userInput");
+const micBtn = document.getElementById("micBtn");
+
+function addMessage(message, sender) {
+
+    const messageDiv = document.createElement("div");
+    messageDiv.className = "message " + sender;
+
+    const bubble = document.createElement("div");
+    bubble.className = "message-bubble";
+    bubble.textContent = message;
+
+    messageDiv.appendChild(bubble);
+    chatMessages.appendChild(messageDiv);
+
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function sendMessage() {
+
+    const message = userInput.value.trim();
+
+    if (!message) return;
+
+    addMessage(message, "user");
+
+    userInput.value = "";
+
+    // Temporary frontend response.
+    // Member 2 will replace this with the Gemini backend API.
+    addMessage(
+        "I have received your travel request! Gemini AI connection is pending backend integration. Once connected, I will help you plan your journey and find available travel options.",
+        "bot"
+    );
+}
+
+function useSuggestion(message) {
+    userInput.value = message;
+    sendMessage();
+}
+
+userInput.addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+        sendMessage();
+    }
+});
+
+// Voice input using browser speech recognition.
+function startVoiceInput() {
+
+    const SpeechRecognition =
+        window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    if (!SpeechRecognition) {
+        alert("Voice input is not supported in this browser. Please use Chrome or Edge.");
+        return;
+    }
+
+    const recognition = new SpeechRecognition();
+
+    recognition.lang = "en-IN";
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    micBtn.textContent = "⏳";
+
+    recognition.onresult = function(event) {
+        userInput.value = event.results[0][0].transcript;
+    };
+
+    recognition.onerror = function() {
+        alert("Voice recognition failed. Please try again.");
+    };
+
+    recognition.onend = function() {
+        micBtn.textContent = "🎙";
+    };
+
+    recognition.start();
+}
+
+// Automatically receive a message from the dashboard.
+const initialMessage =
+    sessionStorage.getItem("ticketmateInitialMessage");
+
+if (initialMessage) {
+    sessionStorage.removeItem("ticketmateInitialMessage");
+    userInput.value = initialMessage;
+    sendMessage();
+}
+</script>
+
+</body>
+</html>

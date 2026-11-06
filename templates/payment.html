@@ -1,0 +1,228 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Secure Demo Payment | TicketMate AI</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+body{background:#f3f6fb;color:#172033}
+header{background:#101d35;color:white;padding:20px 7%;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:23px;font-weight:bold;color:#42d6c4}
+header a{color:white;text-decoration:none}
+.container{max-width:1050px;margin:35px auto;padding:0 20px}
+h1{margin-bottom:8px}
+.subtitle{color:#718096;margin-bottom:25px}
+.demo{background:#fff4d9;border:1px solid #f0d48a;padding:14px;border-radius:10px;margin-bottom:22px;color:#785500;font-size:14px}
+.layout{display:grid;grid-template-columns:1.2fr .8fr;gap:22px}
+.card{background:white;padding:25px;border-radius:15px;box-shadow:0 5px 20px #1720330c}
+h2{font-size:20px;margin-bottom:20px}
+.methods{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:22px}
+.method{padding:15px;border:1px solid #dce3ec;border-radius:10px;background:white;text-align:left;cursor:pointer;font-size:15px}
+.method.active{border:2px solid #087f72;background:#e9faf6;color:#087f72}
+.field{margin-bottom:17px}
+label{display:block;font-size:13px;font-weight:bold;margin-bottom:8px}
+input,select{width:100%;padding:13px;border:1px solid #dce3ec;border-radius:8px;outline:none;font-size:14px}
+input:focus,select:focus{border-color:#087f72}
+.paybtn{width:100%;padding:15px;border:0;border-radius:9px;background:#087f72;color:white;font-size:16px;font-weight:bold;cursor:pointer}
+.paybtn:hover{background:#06675e}
+.summary{background:#f8fafc;padding:18px;border-radius:10px}
+.summary p{display:flex;justify-content:space-between;margin:15px 0;color:#64748b}
+.summary .total{border-top:1px solid #ddd;padding-top:16px;color:#101d35;font-size:20px;font-weight:bold}
+.secure{margin-top:18px;color:#16834b;font-size:13px;text-align:center}
+.hidden{display:none}
+#result{text-align:center;padding:25px}
+.success-icon{font-size:55px;margin-bottom:15px}
+#result h2{color:#16834b}
+.back{display:inline-block;margin-top:20px;color:#087fbd;text-decoration:none}
+@media(max-width:750px){.layout{grid-template-columns:1fr}header{padding:18px 5%}}
+</style>
+</head>
+
+<body>
+<header>
+<div class="logo">✈ TicketMate AI</div>
+<a href="dashboard.html">← Back to Dashboard</a>
+</header>
+
+<div class="container">
+<h1>Complete Your Booking</h1>
+<p class="subtitle">Choose your preferred demo payment method.</p>
+
+<div class="demo">
+<strong>DEMO PAYMENT MODE:</strong> This is a project demonstration.
+No real payment will happen. Never enter actual banking or card details.
+</div>
+
+<div id="paymentArea" class="layout">
+
+<div class="card">
+<h2>Select Payment Method</h2>
+
+<div class="methods">
+<button class="method active" data-method="upi">📱 UPI</button>
+<button class="method" data-method="card">💳 Card</button>
+<button class="method" data-method="netbanking">🏦 Net Banking</button>
+<button class="method" data-method="wallet">👛 Wallet</button>
+</div>
+
+<form id="paymentForm">
+
+<div id="upiFields">
+<div class="field">
+<label>Demo UPI ID</label>
+<input id="upiId" placeholder="demo@upi">
+</div>
+</div>
+
+<div id="cardFields" class="hidden">
+<div class="field">
+<label>Demo Card Number</label>
+<input id="cardNumber" placeholder="DEMO-1234" maxlength="19">
+</div>
+<div class="field">
+<label>Cardholder Name</label>
+<input id="cardName" placeholder="Demo User">
+</div>
+<div class="field">
+<label>Expiry (MM/YY)</label>
+<input id="expiry" placeholder="12/30" maxlength="5">
+</div>
+</div>
+
+<div id="bankFields" class="hidden">
+<div class="field">
+<label>Select Demo Bank</label>
+<select id="bank">
+<option value="">Choose bank</option>
+<option>Demo State Bank</option>
+<option>Demo HDFC Bank</option>
+<option>Demo ICICI Bank</option>
+</select>
+</div>
+</div>
+
+<div id="walletFields" class="hidden">
+<div class="field">
+<label>Select Demo Wallet</label>
+<select id="wallet">
+<option value="">Choose wallet</option>
+<option>Demo Wallet A</option>
+<option>Demo Wallet B</option>
+<option>Demo Wallet C</option>
+</select>
+</div>
+</div>
+
+<button type="submit" class="paybtn" id="payButton">
+Confirm Demo Payment
+</button>
+</form>
+</div>
+
+<div class="card">
+<h2>Booking Summary</h2>
+<div class="summary">
+<p><span>Booking reference</span><strong id="bookingRef">Not assigned</strong></p>
+<p><span>Travel option</span><strong id="travelType">Travel booking</strong></p>
+<p><span>Base fare</span><strong id="baseFare">₹0</strong></p>
+<p><span>Convenience fee</span><strong id="fee">₹0</strong></p>
+<p class="total"><span>Total</span><strong id="total">₹0</strong></p>
+</div>
+<p class="secure">🔒 Demo payment simulation only</p>
+</div>
+</div>
+
+<div id="result" class="card hidden">
+<div class="success-icon">✅</div>
+<h2>Demo Payment Successful!</h2>
+<p>Your payment simulation is complete.</p>
+<p id="paymentReference"></p>
+<p><strong>No money was transferred.</strong></p>
+<a href="bookings.html" class="back">Go to My Bookings →</a>
+</div>
+
+</div>
+
+<script>
+let selectedMethod = "upi";
+
+const methods = document.querySelectorAll(".method");
+
+methods.forEach(button => {
+    button.addEventListener("click", () => {
+        methods.forEach(item => item.classList.remove("active"));
+        button.classList.add("active");
+
+        selectedMethod = button.dataset.method;
+
+        ["upi","card","netbanking","wallet"].forEach(method => {
+            document.getElementById(method + "Fields").classList.add("hidden");
+        });
+
+        document.getElementById(selectedMethod + "Fields").classList.remove("hidden");
+    });
+});
+
+// Read a summary only if another page has supplied one.
+const paymentData = JSON.parse(
+    sessionStorage.getItem("ticketmatePayment") || "{}"
+);
+
+document.getElementById("bookingRef").textContent =
+    paymentData.bookingReference || "Pending backend";
+
+document.getElementById("travelType").textContent =
+    paymentData.travelType || "Travel booking";
+
+const amount = Number(paymentData.amount) || 0;
+const fee = amount > 0 ? 10 : 0;
+
+document.getElementById("baseFare").textContent = "₹" + amount;
+document.getElementById("fee").textContent = "₹" + fee;
+document.getElementById("total").textContent = "₹" + (amount + fee);
+
+document.getElementById("paymentForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    let valid = false;
+
+    if (selectedMethod === "upi") {
+        valid = /^[\w.-]+@[\w.-]+$/.test(
+            document.getElementById("upiId").value.trim()
+        );
+    }
+
+    if (selectedMethod === "card") {
+        valid =
+            document.getElementById("cardNumber").value.trim() === "DEMO-1234" &&
+            document.getElementById("cardName").value.trim().length > 0 &&
+            /^\d{2}\/\d{2}$/.test(document.getElementById("expiry").value.trim());
+    }
+
+    if (selectedMethod === "netbanking") {
+        valid = document.getElementById("bank").value !== "";
+    }
+
+    if (selectedMethod === "wallet") {
+        valid = document.getElementById("wallet").value !== "";
+    }
+
+    if (!valid) {
+        alert("Please enter the required demo payment information.");
+        return;
+    }
+
+    const reference = "TM-DEMO-" + Date.now().toString().slice(-8);
+
+    document.getElementById("paymentArea").classList.add("hidden");
+    document.getElementById("result").classList.remove("hidden");
+
+    document.getElementById("paymentReference").textContent =
+        "Demo reference: " + reference;
+});
+</script>
+</body>
+</html>
