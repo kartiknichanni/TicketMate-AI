@@ -1,3 +1,18 @@
-
+# Virtual environment
 venv/
 .venv/
+
+# Environment secrets
+.env
+.env.local
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# SQLite database
+*.db
+*.sqlite3
+
+# Generated runtime assets
+static/qrcodes/
