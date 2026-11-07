@@ -1,0 +1,393 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login | TicketMate AI</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 25px;
+    background:
+        linear-gradient(rgba(12, 20, 45, 0.78), rgba(12, 20, 45, 0.82)),
+        url("https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1600")
+        center/cover no-repeat;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 1000px;
+    min-height: 590px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: white;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+}
+
+.left-panel {
+    background: linear-gradient(145deg, #242052, #41377f);
+    color: white;
+    padding: 55px 45px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.logo {
+    font-size: 27px;
+    font-weight: 800;
+}
+
+.logo span {
+    color: #a99aff;
+}
+
+.left-content h1 {
+    font-size: 40px;
+    line-height: 1.25;
+    margin-bottom: 22px;
+}
+
+.left-content h1 span {
+    color: #a99aff;
+}
+
+.left-content p {
+    color: #dedafc;
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+.left-panel footer {
+    color: #d0cafa;
+    font-size: 13px;
+}
+
+.right-panel {
+    padding: 55px 45px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.right-panel h2 {
+    color: #20294a;
+    font-size: 30px;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    color: #8991a7;
+    margin-bottom: 35px;
+    font-size: 14px;
+}
+
+.form-group {
+    margin-bottom: 22px;
+}
+
+.form-group label {
+    display: block;
+    color: #293653;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #dce1ed;
+    border-radius: 10px;
+    outline: none;
+    font-size: 14px;
+}
+
+.form-group input:focus {
+    border-color: #6255df;
+    box-shadow: 0 0 0 3px rgba(98,85,223,0.1);
+}
+
+.password-box {
+    position: relative;
+}
+
+.password-box input {
+    padding-right: 65px;
+}
+
+.show-password {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+    color: #6255df;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 28px;
+    font-size: 13px;
+}
+
+.remember {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: #65708a;
+}
+
+.options a,
+.bottom-links a {
+    color: #6255df;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 10px;
+    background: #5847d6;
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.login-btn:hover {
+    background: #4535bb;
+    transform: translateY(-2px);
+}
+
+.bottom-links {
+    text-align: center;
+    margin-top: 28px;
+    color: #858da1;
+    font-size: 14px;
+    line-height: 2.5;
+}
+
+.error-message {
+    color: #d93025;
+    font-size: 13px;
+    margin-top: 12px;
+    display: none;
+}
+
+@media(max-width: 750px) {
+    body {
+        padding: 15px;
+    }
+
+    .login-container {
+        grid-template-columns: 1fr;
+    }
+
+    .left-panel {
+        padding: 30px;
+        min-height: 230px;
+    }
+
+    .left-content {
+        margin-top: 30px;
+    }
+
+    .left-content h1 {
+        font-size: 29px;
+    }
+
+    .right-panel {
+        padding: 35px 25px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="login-container">
+
+    <section class="left-panel">
+
+        <div class="logo">✈ TicketMate <span>AI</span></div>
+
+        <div class="left-content">
+            <h1>Your next journey starts <span>here.</span></h1>
+
+            <p>
+                Sign in to explore travel opportunities, manage your bookings
+                and experience smarter journeys with your AI travel companion.
+            </p>
+        </div>
+
+        <footer>© 2026 TicketMate AI</footer>
+
+    </section>
+
+    <section class="right-panel">
+
+        <h2>Welcome Back!</h2>
+
+        <p class="subtitle">
+            Login to continue your travel experience.
+        </p>
+
+        <form id="loginForm">
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Enter your Gmail address"
+                    autocomplete="email"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+
+                <div class="password-box">
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        minlength="6"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        class="show-password"
+                        id="togglePassword"
+                    >Show</button>
+                </div>
+            </div>
+
+            <div class="options">
+
+                <label class="remember">
+                    <input type="checkbox" id="remember">
+                    Remember me
+                </label>
+
+                <a href="#" id="forgotPassword">Forgot Password?</a>
+
+            </div>
+
+            <button type="submit" class="login-btn">
+                Login to Account →
+            </button>
+
+            <p class="error-message" id="errorMessage"></p>
+
+        </form>
+
+        <div class="bottom-links">
+
+            <p>
+                Don't have an account?
+                <a href="register.html">Create Account</a>
+            </p>
+
+            <p>
+                <a href="index.html" style="color:#8991a7;font-weight:400;">
+                    ← Back to Home
+                </a>
+            </p>
+
+        </div>
+
+    </section>
+
+</div>
+
+<script>
+
+// Show and hide password
+const passwordInput = document.getElementById("password");
+const togglePassword = document.getElementById("togglePassword");
+
+togglePassword.addEventListener("click", function() {
+
+    if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        togglePassword.textContent = "Hide";
+    } else {
+        passwordInput.type = "password";
+        togglePassword.textContent = "Show";
+    }
+
+});
+
+// Demo login
+document.getElementById("loginForm").addEventListener("submit", function(e) {
+
+    e.preventDefault();
+
+    const email = document.getElementById("email").value.trim();
+    const password = passwordInput.value;
+    const errorMessage = document.getElementById("errorMessage");
+
+    errorMessage.style.display = "none";
+
+    if (!email || !password) {
+        errorMessage.textContent = "Please enter your email and password.";
+        errorMessage.style.display = "block";
+        return;
+    }
+
+    if (password.length < 6) {
+        errorMessage.textContent = "Password must contain at least 6 characters.";
+        errorMessage.style.display = "block";
+        return;
+    }
+
+    // Demo login: any valid email and password is accepted.
+    // Backend authentication will be connected later.
+
+    alert("Demo login successful! Welcome to TicketMate AI.");
+
+    window.location.href = "dashboard.html";
+
+});
+
+// Forgot password
+document.getElementById("forgotPassword").addEventListener("click", function(e) {
+
+    e.preventDefault();
+
+    alert("Password recovery will be available after backend integration.");
+
+});
+
+</script>
+
+</body>
+</html>

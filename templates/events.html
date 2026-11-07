@@ -1,0 +1,392 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Events | TicketMate AI</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: #f4f6fb;
+    color: #172033;
+}
+
+header {
+    background: #ffffff;
+    padding: 18px 6%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.06);
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: 800;
+    color: #6255df;
+}
+
+.logo span {
+    color: #18213b;
+}
+
+nav {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+}
+
+nav a {
+    text-decoration: none;
+    color: #536078;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+nav a:hover {
+    color: #6255df;
+}
+
+.container {
+    width: 88%;
+    max-width: 1150px;
+    margin: 35px auto;
+}
+
+.hero {
+    background: linear-gradient(120deg, #29245f, #6255df);
+    color: white;
+    padding: 38px;
+    border-radius: 22px;
+    margin-bottom: 30px;
+}
+
+.hero h1 {
+    font-size: 32px;
+    margin-bottom: 12px;
+}
+
+.hero p {
+    color: #e0ddff;
+    line-height: 1.6;
+}
+
+.search-card {
+    background: white;
+    padding: 30px;
+    border-radius: 18px;
+    box-shadow: 0 8px 30px rgba(30,40,80,0.07);
+}
+
+.search-card h2 {
+    font-size: 22px;
+    margin-bottom: 24px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.field label {
+    font-size: 14px;
+    font-weight: 700;
+    color: #34405b;
+}
+
+.field input,
+.field select {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #dce1ec;
+    border-radius: 10px;
+    outline: none;
+    background: #fff;
+    font-size: 14px;
+}
+
+.field input:focus,
+.field select:focus {
+    border-color: #6255df;
+    box-shadow: 0 0 0 3px rgba(98,85,223,0.1);
+}
+
+.search-btn {
+    width: 100%;
+    margin-top: 25px;
+    padding: 15px;
+    background: #6255df;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.search-btn:hover {
+    background: #4c40c6;
+    transform: translateY(-2px);
+}
+
+.results {
+    background: white;
+    padding: 25px;
+    margin-top: 25px;
+    border-radius: 18px;
+    text-align: center;
+    color: #65708a;
+    line-height: 1.7;
+}
+
+.results h3 {
+    color: #172033;
+    margin-bottom: 8px;
+}
+
+.results-icon {
+    font-size: 38px;
+    margin-bottom: 10px;
+}
+
+.assistant-link {
+    display: inline-block;
+    margin-top: 18px;
+    color: #6255df;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+footer {
+    text-align: center;
+    padding: 25px;
+    color: #8992a5;
+    font-size: 13px;
+}
+
+@media(max-width: 700px) {
+    header {
+        padding: 16px 5%;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    nav {
+        gap: 13px;
+        flex-wrap: wrap;
+    }
+
+    nav a {
+        font-size: 12px;
+    }
+
+    .container {
+        width: 92%;
+        margin-top: 22px;
+    }
+
+    .hero {
+        padding: 25px;
+    }
+
+    .hero h1 {
+        font-size: 25px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .search-card {
+        padding: 22px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">TicketMate <span>AI</span></div>
+
+    <nav>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="bookings.html">My Bookings</a>
+        <a href="assistant.html">AI Assistant</a>
+        <a href="profile.html">Profile</a>
+    </nav>
+</header>
+
+<main class="container">
+
+    <section class="hero">
+        <h1>Discover Events Around You 🎟️</h1>
+        <p>
+            Find concerts, sports, cultural programs and exciting experiences.
+            Search for events and plan your next outing with TicketMate AI.
+        </p>
+    </section>
+
+    <section class="search-card">
+        <h2>Find Your Event</h2>
+
+        <form id="eventForm">
+
+            <div class="form-grid">
+
+                <div class="field">
+                    <label for="city">City / Location</label>
+                    <input type="text" id="city"
+                           placeholder="Example: Mysuru" required>
+                </div>
+
+                <div class="field">
+                    <label for="eventDate">Event Date</label>
+                    <input type="date" id="eventDate" required>
+                </div>
+
+                <div class="field">
+                    <label for="category">Event Category</label>
+                    <select id="category" required>
+                        <option value="">Select category</option>
+                        <option value="Music">Music & Concerts</option>
+                        <option value="Sports">Sports</option>
+                        <option value="Cultural">Cultural Events</option>
+                        <option value="Workshop">Workshops</option>
+                        <option value="Technology">Technology Events</option>
+                        <option value="Comedy">Comedy Shows</option>
+                        <option value="Other">Other Events</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="tickets">Number of Tickets</label>
+                    <select id="tickets" required>
+                        <option value="1">1 Ticket</option>
+                        <option value="2">2 Tickets</option>
+                        <option value="3">3 Tickets</option>
+                        <option value="4">4 Tickets</option>
+                        <option value="5">5 Tickets</option>
+                        <option value="6">6 Tickets</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="ticketType">Ticket Type</label>
+                    <select id="ticketType" required>
+                        <option value="">Select ticket type</option>
+                        <option value="Standard">Standard</option>
+                        <option value="Premium">Premium</option>
+                        <option value="VIP">VIP</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <button type="submit" class="search-btn">
+                Search Events →
+            </button>
+
+        </form>
+    </section>
+
+    <section class="results" id="results">
+        <div class="results-icon">🎫</div>
+        <h3>Ready to Explore?</h3>
+        <p>
+            Enter your location and preferences above to search for events.
+            Available event listings will appear here after backend integration.
+        </p>
+
+        <a href="assistant.html" class="assistant-link">
+            Ask AI Assistant to Help Plan →
+        </a>
+    </section>
+
+</main>
+
+<footer>
+    © 2026 TicketMate AI. Plan smarter. Travel better.
+</footer>
+
+<script>
+document.getElementById("eventForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const eventDetails = {
+        city: document.getElementById("city").value.trim(),
+        date: document.getElementById("eventDate").value,
+        category: document.getElementById("category").value,
+        tickets: document.getElementById("tickets").value,
+        ticketType: document.getElementById("ticketType").value
+    };
+
+    if (!eventDetails.city || !eventDetails.date ||
+        !eventDetails.category || !eventDetails.ticketType) {
+        alert("Please complete all event search fields.");
+        return;
+    }
+
+    const selectedDate = new Date(eventDetails.date + "T00:00:00");
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    if (selectedDate < today) {
+        alert("Please select today or a future date.");
+        return;
+    }
+
+    console.log("Event Search Request:", eventDetails);
+
+    document.getElementById("results").innerHTML = `
+        <div class="results-icon">🔎</div>
+        <h3>Search Details Submitted!</h3>
+        <p>
+            Location: ${escapeHTML(eventDetails.city)}<br>
+            Date: ${escapeHTML(eventDetails.date)}<br>
+            Category: ${escapeHTML(eventDetails.category)}<br>
+            Tickets: ${escapeHTML(eventDetails.tickets)}<br>
+            Ticket Type: ${escapeHTML(eventDetails.ticketType)}
+        </p>
+        <p style="margin-top:12px;">
+            Event results will be displayed when the backend search service
+            is connected. No event availability has been confirmed yet.
+        </p>
+        <a href="assistant.html" class="assistant-link">
+            Plan with AI Assistant →
+        </a>
+    `;
+});
+
+function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, function(char) {
+        return {
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#039;"
+        }[char];
+    });
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,462 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Bookings | TicketMate AI</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+body {
+    background: #f5f6fc;
+    color: #202544;
+}
+
+header {
+    background: white;
+    padding: 18px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 3px 15px rgba(0,0,0,.05);
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: 800;
+    color: #5545d7;
+}
+
+.logo span {
+    color: #202544;
+}
+
+nav {
+    display: flex;
+    gap: 22px;
+    flex-wrap: wrap;
+}
+
+nav a {
+    color: #65708a;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+nav a:hover,
+nav a.active {
+    color: #5545d7;
+}
+
+.container {
+    max-width: 1100px;
+    width: 90%;
+    margin: 35px auto;
+}
+
+.heading {
+    margin-bottom: 25px;
+}
+
+.heading h1 {
+    font-size: 29px;
+    margin-bottom: 9px;
+}
+
+.heading p {
+    color: #8991a5;
+    font-size: 14px;
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 17px;
+    margin-bottom: 27px;
+}
+
+.summary-card {
+    background: white;
+    padding: 22px;
+    border-radius: 15px;
+    border: 1px solid #edf0f7;
+}
+
+.summary-card .symbol {
+    font-size: 25px;
+    margin-bottom: 12px;
+}
+
+.summary-card h2 {
+    font-size: 25px;
+    margin-bottom: 5px;
+}
+
+.summary-card p {
+    color: #8991a5;
+    font-size: 13px;
+}
+
+.booking-panel {
+    background: white;
+    border-radius: 18px;
+    padding: 27px;
+    border: 1px solid #edf0f7;
+}
+
+.panel-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 22px;
+}
+
+.panel-heading h2 {
+    font-size: 20px;
+}
+
+.filter {
+    padding: 10px 13px;
+    border: 1px solid #dfe2ed;
+    border-radius: 9px;
+    color: #4d5770;
+    background: white;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 55px 20px;
+}
+
+.empty-state .icon {
+    font-size: 60px;
+    margin-bottom: 15px;
+}
+
+.empty-state h3 {
+    font-size: 21px;
+    margin-bottom: 10px;
+}
+
+.empty-state p {
+    color: #8991a5;
+    font-size: 14px;
+    line-height: 1.7;
+    margin-bottom: 20px;
+}
+
+.primary-btn {
+    display: inline-block;
+    background: #5949d7;
+    color: white;
+    padding: 13px 20px;
+    border-radius: 9px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.primary-btn:hover {
+    background: #4031b6;
+}
+
+.booking-list {
+    display: grid;
+    gap: 16px;
+}
+
+.booking-card {
+    border: 1px solid #e9ebf3;
+    border-radius: 13px;
+    padding: 20px;
+}
+
+.booking-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.booking-type {
+    font-weight: 700;
+}
+
+.booking-status {
+    padding: 7px 11px;
+    border-radius: 20px;
+    font-size: 12px;
+    background: #e9f8ee;
+    color: #26844b;
+}
+
+.booking-details {
+    color: #7d869b;
+    font-size: 13px;
+    line-height: 1.9;
+}
+
+.booking-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+}
+
+.secondary-btn {
+    padding: 10px 14px;
+    border: 1px solid #dcd9fa;
+    border-radius: 8px;
+    background: #f7f6ff;
+    color: #5545d7;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.qr-area {
+    display: none;
+    text-align: center;
+    padding: 25px;
+    background: #faf9ff;
+    border-radius: 12px;
+    margin-top: 15px;
+}
+
+.qr-area img {
+    width: 150px;
+    height: 150px;
+    margin: 15px auto;
+    display: block;
+}
+
+.qr-area p {
+    font-size: 12px;
+    color: #8991a5;
+}
+
+footer {
+    text-align: center;
+    padding: 25px;
+    color: #9299aa;
+    font-size: 12px;
+}
+
+@media(max-width: 700px) {
+    header {
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .panel-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .booking-top {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">TicketMate <span>AI</span></div>
+
+    <nav>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="bookings.html" class="active">My Bookings</a>
+        <a href="assistant.html">AI Assistant ✦</a>
+        <a href="profile.html">Profile</a>
+    </nav>
+</header>
+
+<main class="container">
+
+    <section class="heading">
+        <h1>My Bookings 🎫</h1>
+        <p>Manage your journeys and view your booking details in one place.</p>
+    </section>
+
+    <section class="summary-grid">
+
+        <div class="summary-card">
+            <div class="symbol">🎟️</div>
+            <h2 id="totalBookings">0</h2>
+            <p>Total Bookings</p>
+        </div>
+
+        <div class="summary-card">
+            <div class="symbol">✅</div>
+            <h2 id="confirmedBookings">0</h2>
+            <p>Confirmed Bookings</p>
+        </div>
+
+        <div class="summary-card">
+            <div class="symbol">⏳</div>
+            <h2 id="pendingBookings">0</h2>
+            <p>Pending Bookings</p>
+        </div>
+
+    </section>
+
+    <section class="booking-panel">
+
+        <div class="panel-heading">
+            <h2>Your Travel History</h2>
+
+            <select class="filter" id="bookingFilter">
+                <option value="all">All Bookings</option>
+                <option value="confirmed">Confirmed</option>
+                <option value="pending">Pending</option>
+                <option value="cancelled">Cancelled</option>
+            </select>
+        </div>
+
+        <div id="bookingList" class="booking-list"></div>
+
+        <div id="emptyState" class="empty-state">
+            <div class="icon">🧳</div>
+            <h3>No bookings yet!</h3>
+            <p>
+                Your journeys will appear here after you complete a booking.
+                Start planning your next trip with TicketMate AI.
+            </p>
+            <a href="assistant.html" class="primary-btn">
+                Plan a Journey with AI →
+            </a>
+        </div>
+
+    </section>
+
+</main>
+
+<footer>
+    © 2026 TicketMate AI. Your journeys, all in one place.
+</footer>
+
+<script>
+
+// No fake booking records are inserted.
+// The backend will provide the logged-in user's real booking records.
+
+let bookings = [];
+
+const bookingList = document.getElementById("bookingList");
+const emptyState = document.getElementById("emptyState");
+const bookingFilter = document.getElementById("bookingFilter");
+
+function updateSummary() {
+    document.getElementById("totalBookings").textContent = bookings.length;
+
+    document.getElementById("confirmedBookings").textContent =
+        bookings.filter(b => b.status === "confirmed").length;
+
+    document.getElementById("pendingBookings").textContent =
+        bookings.filter(b => b.status === "pending").length;
+}
+
+function renderBookings() {
+    const filter = bookingFilter.value;
+
+    const filtered = bookings.filter(booking =>
+        filter === "all" || booking.status === filter
+    );
+
+    bookingList.innerHTML = "";
+
+    emptyState.style.display = filtered.length === 0 ? "block" : "none";
+
+    if (bookings.length > 0 && filtered.length === 0) {
+        emptyState.querySelector("h3").textContent = "No matching bookings";
+        emptyState.querySelector("p").textContent =
+            "Try selecting another booking filter.";
+        emptyState.querySelector("a").style.display = "none";
+    } else if (filtered.length > 0) {
+        emptyState.querySelector("h3").textContent = "No bookings yet!";
+        emptyState.querySelector("a").style.display = "inline-block";
+    }
+
+    filtered.forEach(booking => {
+        const card = document.createElement("div");
+        card.className = "booking-card";
+
+        const top = document.createElement("div");
+        top.className = "booking-top";
+
+        const type = document.createElement("div");
+        type.className = "booking-type";
+        type.textContent = booking.type + " Booking";
+
+        const status = document.createElement("span");
+        status.className = "booking-status";
+        status.textContent = booking.status.toUpperCase();
+
+        top.append(type, status);
+
+        const details = document.createElement("div");
+        details.className = "booking-details";
+
+        [
+            "Booking ID: " + booking.id,
+            "Journey: " + booking.route,
+            "Date: " + booking.date,
+            "Passengers: " + booking.passengers
+        ].forEach(line => {
+            const p = document.createElement("p");
+            p.textContent = line;
+            details.appendChild(p);
+        });
+
+        card.append(top, details);
+
+        if (booking.status === "confirmed") {
+            const actions = document.createElement("div");
+            actions.className = "booking-actions";
+
+            const qrButton = document.createElement("button");
+            qrButton.className = "secondary-btn";
+            qrButton.textContent = "View QR Ticket";
+
+            const qrArea = document.createElement("div");
+            qrArea.className = "qr-area";
+
+            qrButton.addEventListener("click", () => {
+                qrArea.style.display =
+                    qrArea.style.display === "block" ? "none" : "block";
+            });
+
+            actions.appendChild(qrButton);
+            card.append(actions, qrArea);
+        }
+
+        bookingList.appendChild(card);
+    });
+
+    updateSummary();
+}
+
+bookingFilter.addEventListener("change", renderBookings);
+
+renderBookings();
+
+</script>
+
+</body>
+</html>
