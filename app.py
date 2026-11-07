@@ -12,7 +12,11 @@ from google import genai
 
 load_dotenv()
 
-app = Flask(__name__)
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parents[2]
+app = Flask(__name__, template_folder=str(BASE_DIR / "templates"),
+            static_folder=str(BASE_DIR / "static"))
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "ticketmate_super_secret_hackathon_2026")
 CORS(app)
 
